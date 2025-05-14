@@ -685,10 +685,13 @@ namespace ZXing.Net.Maui
 						SoftwareBitmap latestBitmap;
 						while ((latestBitmap = Interlocked.Exchange(ref _backBuffer, null)) != null)
 						{
+							try { 
 							var imageSource = (SoftwareBitmapSource)_imageElement.Source;
 							await imageSource.SetBitmapAsync(latestBitmap);
 							latestBitmap.Dispose();
-						}
+                            }
+							catch { }
+                        }
 
 						_taskRunning = false;
 					});
